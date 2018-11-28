@@ -10,10 +10,12 @@ defmodule ExSimpleGraph.MixProject do
       deps: deps(),
       elixirc_paths: ["lib", "test/support"],
       description: "A handful of useful tools for dealing with simple, undirected graphs",
-      licenses: ["MIT"],
       source_url: "https://github.com/otherchris/ExSimpleGraph",
-
-
+      package: [
+        name: "ex_simple_graph",
+        licenses: ["MIT"],
+        links: %{"GitHub" => "https://github.com/otherchris/ExSimpleGraph"}
+      ]
     ]
   end
 
