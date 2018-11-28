@@ -4,11 +4,16 @@ defmodule ExSimpleGraph.MixProject do
   def project do
     [
       app: :ex_simple_graph,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixirc_paths: ["lib", "test/support"]
+      elixirc_paths: ["lib", "test/support"],
+      description: "A handful of useful tools for dealing with simple, undirected graphs",
+      licenses: ["MIT"],
+      source_url: "https://github.com/otherchris/ExSimpleGraph",
+
+
     ]
   end
 
