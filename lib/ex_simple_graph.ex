@@ -1,4 +1,4 @@
-defmodule GeoPartition.Graph do
+defmodule ExSimpleGraph do
   @moduledoc """
   Some functions for working with undirected graphs
   """
@@ -12,11 +12,11 @@ defmodule GeoPartition.Graph do
   ## Examples
   ```
   iex> g = {[1, 2, 3, 4], [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([3, 4]), MapSet.new([4, 1])]}
-  iex> GeoPartition.Graph.subdivide(g, [MapSet.new([1, 2]), MapSet.new([3, 4])], "x")
+  iex> ExSimpleGraph.subdivide(g, [MapSet.new([1, 2]), MapSet.new([3, 4])], "x")
   {[1, 2, 3, 4, "x"], [MapSet.new([1, "x"]), MapSet.new([2, "x"]), MapSet.new([3, "x"]), MapSet.new([4, "x"]), MapSet.new([2, 3]), MapSet.new([4, 1])]}
 
   iex> g = {[1, 2, 3], [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([3, 1])]}
-  iex> GeoPartition.Graph.subdivide(g, [MapSet.new([1, 2]), MapSet.new([2, 3])], "x")
+  iex> ExSimpleGraph.subdivide(g, [MapSet.new([1, 2]), MapSet.new([2, 3])], "x")
   {[1, 2, 3, "x"], [MapSet.new([1, "x"]), MapSet.new([2, "x"]), MapSet.new([3, "x"]), MapSet.new([1, 3])]}
   ```
   """
@@ -45,17 +45,17 @@ defmodule GeoPartition.Graph do
   ```
   iex> v = [1, 2, 3, 4]
   iex> e = [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([4, 1]), MapSet.new([3, 4])]
-  iex> GeoPartition.Graph.cycle_sort({v, e})
+  iex> ExSimpleGraph.cycle_sort({v, e})
   {:ok, {[1,2,3,4], [MapSet.new([1, 4]), MapSet.new([4, 3]), MapSet.new([3, 2]), MapSet.new([2, 1])]}}
 
   iex> v = [1, 2, 3, 4]
   iex> e = [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([4, 1]), MapSet.new([3, 4]), MapSet.new([2, 4])]
-  iex> GeoPartition.Graph.cycle_sort({v, e})
+  iex> ExSimpleGraph.cycle_sort({v, e})
   {:error, "not cycles"}
 
   iex> v = [1, 2, 3, 4]
   iex> e = [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([2, 4]), MapSet.new([3, 4])]
-  iex> GeoPartition.Graph.cycle_sort({v, e})
+  iex> ExSimpleGraph.cycle_sort({v, e})
   {:error, "not cycles"}
   ```
   """
@@ -83,7 +83,7 @@ defmodule GeoPartition.Graph do
 
   ## Examples
   ```
-  iex> GeoPartition.Graph.clique([1, 2, 3])
+  iex> ExSimpleGraph.clique([1, 2, 3])
   {[1, 2, 3], [MapSet.new([1, 2]), MapSet.new([1, 3]), MapSet.new([2, 3])]}
   ```
   """
@@ -101,13 +101,13 @@ defmodule GeoPartition.Graph do
   ## Examples
   ```
   iex> v = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  iex> {v, e} = GeoPartition.Graph.clique(v)
-  iex> GeoPartition.Graph.find_path_by({v, e}, 1, 9, &(rem(&1, 2) == 0))
+  iex> {v, e} = ExSimpleGraph.clique(v)
+  iex> ExSimpleGraph.find_path_by({v, e}, 1, 9, &(rem(&1, 2) == 0))
   [MapSet.new([1, 2]), MapSet.new([2, 4]), MapSet.new([4, 6]), MapSet.new([6, 8]), MapSet.new([8, 9])]
 
   iex> v = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  iex> {v, e} = GeoPartition.Graph.clique(v)
-  iex> GeoPartition.Graph.find_path_by({v, e}, 1, 9, &(rem(&1, 2) == 0), &Kernel.>=(&1, &2))
+  iex> {v, e} = ExSimpleGraph.clique(v)
+  iex> ExSimpleGraph.find_path_by({v, e}, 1, 9, &(rem(&1, 2) == 0), &Kernel.>=(&1, &2))
   [MapSet.new([1, 9])]
   ```
   """
@@ -166,7 +166,7 @@ defmodule GeoPartition.Graph do
   iex> v = [1, 2, 3, 4]
   iex> edge_pairs = [[1, 2], [1, 3], [2, 3], [3, 4], [4, 1]]
   iex> e = Enum.map(edge_pairs, &MapSet.new(&1))
-  iex> GeoPartition.Graph.delete_vertex({v, e}, 3)
+  iex> ExSimpleGraph.delete_vertex({v, e}, 3)
   {[1, 2, 4], [MapSet.new([1, 2]), MapSet.new([1, 4])]}
   ```
   """
@@ -186,7 +186,7 @@ defmodule GeoPartition.Graph do
   iex> v = [1, 2, 3, 4]
   iex> edge_pairs = [[1, 2], [1, 3], [2, 3], [3, 4], [4, 1]]
   iex> e = Enum.map(edge_pairs, &MapSet.new(&1))
-  iex> GeoPartition.Graph.delete_vertices_by({v, e}, &(rem(&1, 2) == 0))
+  iex> ExSimpleGraph.delete_vertices_by({v, e}, &(rem(&1, 2) == 0))
   {[1, 3], [MapSet.new([1, 3])]}
   ```
   """
@@ -203,7 +203,7 @@ defmodule GeoPartition.Graph do
   ```
   iex> g1 = {[1, 2, 3], [MapSet.new([1, 2]), MapSet.new([2, 3])]}
   iex> g2 = {[1, 2], [MapSet.new([1,2])]}
-  iex> GeoPartition.Graph.intersection(g1, g2)
+  iex> ExSimpleGraph.intersection(g1, g2)
   {[1, 2], [MapSet.new([1, 2])]}
   ```
   """

@@ -1,4 +1,4 @@
-defmodule GeoPartition.GraphTest do
+defmodule ExSimpleGraphTest do
   use ExUnit.Case
-  doctest GeoPartition.Graph
+  doctest ExSimpleGraph
 end
