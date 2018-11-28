@@ -7,7 +7,7 @@ A handful of useful tools for dealing with simple, undirected graphs
 ```elixir
 def deps do
   [
-    {:ex_simple_graph, "~> 0.1.0"}
+    {:ex_simple_graph, "~> 0.1.1"}
   ]
 end
 ```
