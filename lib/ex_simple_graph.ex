@@ -18,17 +18,22 @@ defmodule ExSimpleGraph do
   iex> g = {[1, 2, 3], [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([3, 1])]}
   iex> ExSimpleGraph.subdivide(g, [MapSet.new([1, 2]), MapSet.new([2, 3])], "x")
   {[1, 2, 3, "x"], [MapSet.new([1, "x"]), MapSet.new([2, "x"]), MapSet.new([3, "x"]), MapSet.new([1, 3])]}
+
+  iex> g = {[1, 2, 3, 4], [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([3, 4]), MapSet.new([4, 1])]}
+  iex> ExSimpleGraph.subdivide(g, [MapSet.new([1, 2]), MapSet.new([3, 4])], 2)
+  {[1, 2, 3, 4], [MapSet.new([1, 2]), MapSet.new([2, 3]), MapSet.new([2, 4]), MapSet.new([4, 1])]}
   ```
   """
   @spec subdivide(graph, list(MapSet), any) :: graph
   def subdivide({vertices, edges}, edges_to_subdivide, new_vertex) do
-    vertices = vertices ++ [new_vertex]
-    edges = edges_to_subdivide
+    vertices = vertices ++ [new_vertex] |> Enum.uniq
+    other_edges = Enum.reject(edges, &(Enum.member?(edges_to_subdivide, &1)))
+    result_edges = edges_to_subdivide
             |> new_edges(new_vertex)
-            |> Kernel.++(edges)
-            |> Enum.reject(&(Enum.member?(edges_to_subdivide, &1)))
+            |> Kernel.++(other_edges)
             |> Enum.uniq
-    {vertices, edges}
+            |> Enum.reject(&(MapSet.size(&1) == 1))
+    {vertices, result_edges}
   end
 
   defp new_edges(intersected_edges, point) do
